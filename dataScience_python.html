@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>dataScience_python</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>dataScience_python</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11,8 +13,8 @@
 *
 */
 /*!
- * Bootstrap v3.3.7 (http://getbootstrap.com)
- * Copyright 2011-2016 Twitter, Inc.
+ * Bootstrap v3.3.6 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
@@ -1107,6 +1109,7 @@ a:focus {
   text-decoration: underline;
 }
 a:focus {
+  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -2535,6 +2538,7 @@ select[size] {
 input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
+  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -3025,6 +3029,7 @@ select[multiple].input-lg {
 .btn.focus,
 .btn:active.focus,
 .btn.active.focus {
+  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -8755,9 +8760,6 @@ body > #header .header-bar {
     margin-left: 10px;
   }
 }
-[dir="rtl"] #ipython_notebook {
-  float: right !important;
-}
 #noscript {
   width: auto;
   padding-top: 16px;
@@ -8960,14 +8962,8 @@ span#login_widget > .button .badge,
  *
  * Author: Jupyter Development Team
  */
-[dir="rtl"] #tabs li {
-  float: right;
-}
 ul#tabs {
   margin-bottom: 4px;
-}
-[dir="rtl"] ul#tabs {
-  margin-right: 0px;
 }
 ul#tabs a {
   padding-top: 6px;
@@ -8990,16 +8986,6 @@ ul.breadcrumb span {
 }
 .list_toolbar .tree-buttons {
   padding-top: 1px;
-}
-[dir="rtl"] .list_toolbar .tree-buttons {
-  float: left !important;
-}
-[dir="rtl"] .list_toolbar .pull-right {
-  padding-top: 1px;
-  float: left !important;
-}
-[dir="rtl"] .list_toolbar .pull-left {
-  float: right !important;
 }
 .dynamic-buttons {
   padding-top: 3px;
@@ -9136,9 +9122,6 @@ ul.breadcrumb span {
 #tree-selector {
   padding-right: 0px;
 }
-[dir="rtl"] #tree-selector a {
-  float: right;
-}
 #button-select-all {
   min-width: 50px;
 }
@@ -9228,9 +9211,6 @@ ul#new-menu {
   left: auto;
   right: 0;
 }
-[dir="rtl"] #new-menu {
-  text-align: right;
-}
 .kernel-menu-icon {
   padding-right: 12px;
   width: 24px;
@@ -9275,9 +9255,6 @@ ul#new-menu {
 }
 #running .panel-group .panel .panel-body .list_container .list_item:last-child {
   border-bottom: 0px;
-}
-[dir="rtl"] #running .col-sm-8 {
-  float: right !important;
 }
 .delete-button {
   display: none;
@@ -9574,7 +9551,6 @@ div.cell.selected.jupyter-soft-selected {
   }
 }
 div.inner_cell {
-  min-width: 0;
   /* Old browsers */
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -9595,6 +9571,11 @@ div.inner_cell {
   box-flex: 1;
   /* Modern browsers */
   flex: 1;
+}
+@-moz-document url-prefix() {
+  div.inner_cell {
+    overflow-x: hidden;
+  }
 }
 /* input_area and input_prompt must match in top border and margin for alignment */
 div.input_area {
@@ -11265,7 +11246,7 @@ div#pager .ui-resizable-handle::after {
 }
 .shortcut_key {
   display: inline-block;
-  width: 21ex;
+  width: 20ex;
   text-align: right;
   font-family: monospace;
 }
@@ -11577,7 +11558,6 @@ ul.typeahead-list > li > a {
   box-shadow: 0px 0px 12px 1px rgba(87, 87, 87, 0.2);
 }
 .terminal-app .terminal {
-  width: 100%;
   float: left;
   font-family: monospace;
   color: white;
@@ -11591,9 +11571,6 @@ ul.typeahead-list > li > a {
 .terminal-app .terminal dummy-screen {
   line-height: 1em;
   font-size: 14px;
-}
-.terminal-app .terminal .xterm-rows {
-  padding: 10px;
 }
 .terminal-app .terminal-cursor {
   color: black;
@@ -11769,52 +11746,6 @@ div#notebook {
     });
     </script>
     <!-- End of mathjax configuration --></head>
-
- <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-
-<style>  /* defined here in case the main.css below cannot be loaded */
-.lev1 {margin-left: 80px}
-.lev2 {margin-left: 100px}
-.lev3 {margin-left: 120px}
-.lev4 {margin-left: 140px}
-.lev5 {margin-left: 160px}
-.lev6 {margin-left: 180px}
-</style>
-
-<link rel="stylesheet" type="text/css" href="https://rawgit.com/ipython-contrib/jupyter_contrib_nbextensions/master/src/jupyter_contrib_nbextensions/nbextensions/toc2/main.css">
-
-<script src="https://rawgit.com/ipython-contrib/jupyter_contrib_nbextensions/master/src/jupyter_contrib_nbextensions/nbextensions/toc2/toc2.js"></script>
-
-<script>
-$( document ).ready(function(){
-
-            var cfg={'threshold':4,     // depth of toc (number of levels)
-             'number_sections': true,  // sections numbering
-             'toc_cell': false,          // useless here
-             'toc_window_display': true, // display the toc window
-             "toc_section_display": "block", // display toc contents in the window
-             'sideBar':true,             // sidebar or floating window
-             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
-            }
-
-            var st={};                  // some variables used in the script
-            st.rendering_toc_cell = false;
-            st.config_loaded = false;
-            st.extension_initialized=false;
-            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
-            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
-            st.nbcontainer_width = $('#notebook-container').css('width')
-            st.oldTocHeight = undefined
-            st.cell_toc = undefined;
-            st.toc_index=0;
-
-            // fire the main function with these parameters
-            table_of_contents(cfg,st);
-    });
-</script>
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
@@ -13008,7 +12939,7 @@ In Markdown mode:<br>
 </blockquote>
 <p>Examples:</p>
 <p>Likert scale:<br>
-Like=1  Like Somewhat=2 Neutral=3   Dislike Somewhat=4   Dislike=5</p>
+Like=1    Like Somewhat=2    Neutral=3    Dislike Somewhat=4   Dislike=5</p>
 <p>Income groupings \$0-\$19,999, \$20,000-\$39,999, \$40,000-\$59,999, ...</p>
 
 </div>
@@ -13082,7 +13013,9 @@ Like=1  Like Somewhat=2 Neutral=3   Dislike Somewhat=4   Dislike=5</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Machine-Learning">Machine Learning<a class="anchor-link" href="#Machine-Learning">&#182;</a></h1>
+<h1 id="Machine-Learning">Machine Learning<a class="anchor-link" href="#Machine-Learning">&#182;</a></h1><p><a href="http://bit.ly/2DCfdzP">My machine learning notes</a><br>
+If you care to comment there, please be kind as it is a work in progress.</p>
+
 </div>
 </div>
 </div>
@@ -13197,6 +13130,52 @@ Like=1  Like Somewhat=2 Neutral=3   Dislike Somewhat=4   Dislike=5</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Decision-Tree-Ensembles">Decision Tree Ensembles<a class="anchor-link" href="#Decision-Tree-Ensembles">&#182;</a></h3><p><code>sklearn.ensemble</code> <a href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble">scikit-learn modules</a></p>
+<p>ensemble.AdaBoostClassifier([…])    An AdaBoost classifier.<br>
+ensemble.AdaBoostRegressor([base_estimator, …])    An AdaBoost regressor.<br>
+ensemble.BaggingClassifier([base_estimator, …])    A Bagging classifier.<br>
+ensemble.BaggingRegressor([base_estimator, …])    A Bagging regressor.<br>
+ensemble.ExtraTreesClassifier([…])    An extra-trees classifier.<br>
+ensemble.ExtraTreesRegressor([n_estimators, …])    An extra-trees regressor.<br>
+ensemble.GradientBoostingClassifier([loss, …])    Gradient Boosting for classification.<br>
+ensemble.GradientBoostingRegressor([loss, …])    Gradient Boosting for regression.<br>
+ensemble.IsolationForest([n_estimators, …])    Isolation Forest Algorithm<br>
+ensemble.RandomForestClassifier([…])    A random forest classifier.<br>
+ensemble.RandomForestRegressor([…])    A random forest regressor.<br>
+ensemble.RandomTreesEmbedding([…])    An ensemble of totally random trees.<br>
+ensemble.VotingClassifier(estimators[, …])    Soft Voting/Majority Rule classifier for unfitted estimators.</p>
+<p>Partial dependence plots for tree ensembles.</p>
+<p>ensemble.partial_dependence.partial_dependence(…)    Partial dependence of target_variables.<br>
+ensemble.partial_dependence.plot_partial_dependence(…)    Partial dependence plots for features</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+
+<span class="n">clf_rf</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
+<span class="n">clf_rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_X</span><span class="p">,</span> <span class="n">df_y</span><span class="p">[</span><span class="s1">&#39;true&#39;</span><span class="p">])</span>
+
+<span class="c1"># important features</span>
+<span class="n">sr_important</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">clf_rf</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">df_X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">sr_important</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;barh&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="PCA">PCA<a class="anchor-link" href="#PCA">&#182;</a></h2>
 </div>
 </div>
@@ -13287,7 +13266,8 @@ Like=1  Like Somewhat=2 Neutral=3   Dislike Somewhat=4   Dislike=5</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Clustering">Clustering<a class="anchor-link" href="#Clustering">&#182;</a></h2>
+<h2 id="Clustering">Clustering<a class="anchor-link" href="#Clustering">&#182;</a></h2><p><a href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.cluster">scikit-learn API</a></p>
+
 </div>
 </div>
 </div>
@@ -13296,7 +13276,9 @@ Like=1  Like Somewhat=2 Neutral=3   Dislike Somewhat=4   Dislike=5</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="K-means">K-means<a class="anchor-link" href="#K-means">&#182;</a></h3>
+<h3 id="K-means">K-means<a class="anchor-link" href="#K-means">&#182;</a></h3><p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html">scikit-learn module</a><br>
+<a href="http://scikit-learn.org/stable/modules/clustering.html#k-means">scikit-learn user's guide</a></p>
+
 </div>
 </div>
 </div>
@@ -13384,6 +13366,10 @@ Like=1  Like Somewhat=2 Neutral=3   Dislike Somewhat=4   Dislike=5</p>
     <span class="n">kmeanModel</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="k">print</span> <span class="n">k</span><span class="p">,</span> <span class="n">kmeanModel</span><span class="o">.</span><span class="n">n_iter_</span>
     <span class="n">kmeanModel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="c1"># for each point - </span>
+    <span class="c1"># (1) calculate the distance to the nearest cluster: np.min(cdist(X, kmeanModel.cluster_centers_, &#39;euclidean&#39;), axis=1)</span>
+    <span class="c1"># for all points together</span>
+    <span class="c1"># (2) calculate average distance of each point sum(PREVIOUS) / N_points</span>
     <span class="n">distortions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">cdist</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">kmeanModel</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">,</span> <span class="s1">&#39;euclidean&#39;</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
 <span class="c1"># Plot the elbow</span>
@@ -13392,6 +13378,260 @@ Like=1  Like Somewhat=2 Neutral=3   Dislike Somewhat=4   Dislike=5</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Distortion&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;The Elbow Method showing the optimal k&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Outlier/Novelty-Detection">Outlier/Novelty Detection<a class="anchor-link" href="#Outlier/Novelty-Detection">&#182;</a></h2><p><a href="https://www.youtube.com/watch?v=ZKaOfJIjMRg">Andrew Ng</a> recommends manipulating all features to make them look gaussian by using Log, sqrt (or other powers)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Covariance-Estimation">Covariance Estimation<a class="anchor-link" href="#Covariance-Estimation">&#182;</a></h3><p><a href="http://scikit-learn.org/stable/auto_examples/covariance/plot_mahalanobis_distances.html#sphx-glr-auto-examples-covariance-plot-mahalanobis-distances-py">scikit-learn tutorial</a></p>
+<blockquote><p><strong>Mahalanobis Distance</strong> is a multi-dimensional generalization of the idea of measuring how many standard deviations away a point P is from the mean of distribution D.<br>
+If each of these axes is rescaled to have unit variance, then Mahalanobis distance corresponds to standard Euclidean distance in the transformed space. Mahalanobis distance is thus unitless and scale-invariant, and takes into account the correlations of the data set.
+<a href="https://en.wikipedia.org/wiki/Mahalanobis_distance">Wikipedia</a></p>
+</blockquote>
+<p><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/022088abeaaecdb767fb86a1b65e28ec566a1c36" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.covariance</span> <span class="kn">import</span> <span class="n">EmpiricalCovariance</span><span class="p">,</span> <span class="n">MinCovDet</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># fit a Minimum Covariance Determinant (MCD) robust estimator to data</span>
+<span class="n">robust_cov</span> <span class="o">=</span> <span class="n">MinCovDet</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+<span class="c1"># compare estimators learnt from the full data set with true parameters</span>
+<span class="n">emp_cov</span> <span class="o">=</span> <span class="n">EmpiricalCovariance</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Plot the scores for each point</span>
+<span class="n">emp_mahal</span> <span class="o">=</span> <span class="n">emp_cov</span><span class="o">.</span><span class="n">mahalanobis</span><span class="p">(</span><span class="n">df</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">robust_mahal</span> <span class="o">=</span> <span class="n">robust_cov</span><span class="o">.</span><span class="n">mahalanobis</span><span class="p">(</span><span class="n">df</span> <span class="o">-</span> <span class="n">robust_cov</span><span class="o">.</span><span class="n">location_</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">df_mahal</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Emperical&#39;</span><span class="p">:</span> <span class="n">emp_mahal</span><span class="p">,</span> <span class="s1">&#39;Robust&#39;</span><span class="p">:</span> <span class="n">robust_mahal</span><span class="p">})</span>
+
+<span class="k">print</span> <span class="n">df_mahal</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">df_mahal</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">df_mahal</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">normed</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_mahal</span><span class="p">[</span><span class="s1">&#39;Emperical&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="n">normed</span><span class="p">,</span> <span class="n">histtype</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Emperical&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_mahal</span><span class="p">[</span><span class="s1">&#39;Robust&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="n">normed</span><span class="p">,</span> <span class="n">histtype</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Robust&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="c1">#plt.scatter(df_mahal[&#39;Emperical&#39;], df_mahal[&#39;Robust&#39;], s=10)</span>
+<span class="n">df_mahal</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">percentiles</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">col</span> <span class="o">=</span> <span class="s1">&#39;Robust&#39;</span>
+<span class="n">thresh</span> <span class="o">=</span> <span class="mf">3.</span> <span class="c1"># as in Nd equivalent of 3sigma</span>
+
+<span class="n">bool_</span> <span class="o">=</span> <span class="n">df_mahal</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">thresh</span>
+<span class="n">idx_outliers</span> <span class="o">=</span> <span class="n">df_mahal</span><span class="p">[</span><span class="n">bool_</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">idx_inliers</span> <span class="o">=</span> <span class="n">df_mahal</span><span class="p">[</span><span class="o">~</span><span class="n">bool_</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+
+<span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx_outliers</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx_inliers</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Display results in 2D</span>
+<span class="n">colx</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">coly</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">colx</span><span class="p">,</span> <span class="n">coly</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">16</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=-.</span><span class="mi">1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=.</span><span class="mi">4</span><span class="p">,</span> <span class="n">top</span><span class="o">=.</span><span class="mi">95</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=.</span><span class="mo">05</span><span class="p">)</span>
+
+<span class="c1"># Show data set</span>
+<span class="n">subfig1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">markerSize</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">inlier_plot</span> <span class="o">=</span> <span class="n">subfig1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_Xoutlier</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_inliers</span><span class="p">,</span> <span class="n">colx</span><span class="p">],</span> <span class="n">df_Xoutlier</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_inliers</span><span class="p">,</span> <span class="n">coly</span><span class="p">],</span><span class="n">s</span><span class="o">=</span><span class="n">markerSize</span><span class="p">,</span>
+                              <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;training&#39;</span><span class="p">)</span>
+<span class="n">outlier_plot</span> <span class="o">=</span> <span class="n">subfig1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_Xoutlier</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_outliers</span><span class="p">,</span> <span class="n">colx</span><span class="p">],</span> <span class="n">df_Xoutlier</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_outliers</span><span class="p">,</span> <span class="n">coly</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">markerSize</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+                               <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;outliers&#39;</span><span class="p">)</span>
+<span class="c1">#subfig1.set_xlim(subfig1.get_xlim()[0], 11.)</span>
+<span class="n">subfig1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Mahalanobis distances of a contaminated data set:&quot;</span><span class="p">)</span>
+
+<span class="c1"># Show contours of the distance functions</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">100</span><span class="p">),</span>
+                     <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">100</span><span class="p">))</span>
+<span class="n">zz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()]</span>
+
+<span class="k">if</span> <span class="n">df_Xoutlier</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="c1"># need to update code to project Nd to 2d (as in 2d slice)</span>
+    <span class="n">mahal_emp_cov</span> <span class="o">=</span> <span class="n">emp_cov</span><span class="o">.</span><span class="n">mahalanobis</span><span class="p">(</span><span class="n">zz</span><span class="p">)</span> <span class="c1"># to do so, zz needs to be updated</span>
+    <span class="n">mahal_emp_cov</span> <span class="o">=</span> <span class="n">mahal_emp_cov</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">emp_cov_contour</span> <span class="o">=</span> <span class="n">subfig1</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mahal_emp_cov</span><span class="p">),</span>
+                                      <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">PuBu_r</span><span class="p">,</span>
+                                      <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+
+    <span class="n">mahal_robust_cov</span> <span class="o">=</span> <span class="n">robust_cov</span><span class="o">.</span><span class="n">mahalanobis</span><span class="p">(</span><span class="n">zz</span><span class="p">)</span>
+    <span class="n">mahal_robust_cov</span> <span class="o">=</span> <span class="n">mahal_robust_cov</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">robust_contour</span> <span class="o">=</span> <span class="n">subfig1</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mahal_robust_cov</span><span class="p">),</span>
+                                     <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">YlOrBr_r</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">)</span>
+
+
+    <span class="n">subfig1</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="n">emp_cov_contour</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">robust_contour</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">inlier_plot</span><span class="p">,</span> <span class="n">outlier_plot</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;MLE dist&#39;</span><span class="p">,</span> <span class="s1">&#39;robust dist&#39;</span><span class="p">,</span> <span class="s1">&#39;in-liers&#39;</span><span class="p">,</span> <span class="s1">&#39;out-liers&#39;</span><span class="p">],</span>
+                   <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="One-Class-SVM">One Class SVM<a class="anchor-link" href="#One-Class-SVM">&#182;</a></h3><p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html">scikit-learn module</a><br>
+<a href="http://scikit-learn.org/stable/auto_examples/svm/plot_oneclass.html">scikit-learn tutorial</a></p>
+<p>Here we use a non-linear kernel called RBF</p>
+<blockquote><p>Strictly-speaking, the One-class SVM is not an outlier-detection method, but a novelty-detection method: its training set should not be contaminated by outliers as it may fit them. That said, outlier detection in high-dimension, or without any assumptions on the distribution of the inlying data is very challenging, and a One-class SVM gives useful results in these situations.<br>
+<a href="http://scikit-learn.org/stable/modules/outlier_detection.html#one-class-svm-versus-elliptic-envelope-versus-isolation-forest-versus-lof">scikit-learn outlier generic tutorial</a></p>
+</blockquote>
+<p>Here we show using the <a href="https://en.wikipedia.org/wiki/Radial_basis_function_kernel">Gaussian kernel (RBF- radial basis function)</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">OneClassSVM</span>
+
+<span class="n">clf_svm</span> <span class="o">=</span> <span class="n">OneClassSVM</span><span class="p">(</span><span class="n">nu</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;rbf&quot;</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">clf_svm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># predictions</span>
+
+<span class="n">df_prediction</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">clf_svm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">df_Xoutlier</span><span class="o">.</span><span class="n">index</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">])</span>
+<span class="n">bool_</span> <span class="o">=</span> <span class="n">df_prediction</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="n">idx_outliers</span> <span class="o">=</span> <span class="n">df_prediction</span><span class="p">[</span><span class="n">bool_</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">idx_inliers</span> <span class="o">=</span> <span class="n">df_prediction</span><span class="p">[</span><span class="o">~</span><span class="n">bool_</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+
+<span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx_outliers</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx_inliers</span><span class="p">)</span>
+
+<span class="c1"># plotting</span>
+
+<span class="n">colx</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">coly</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">inlier_plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_inliers</span><span class="p">,</span> <span class="n">colx</span><span class="p">],</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_inliers</span><span class="p">,</span> <span class="n">coly</span><span class="p">],</span><span class="n">s</span><span class="o">=</span><span class="n">markerSize</span><span class="p">,</span>
+                              <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;training&#39;</span><span class="p">)</span>
+<span class="n">outlier_plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_outliers</span><span class="p">,</span> <span class="n">colx</span><span class="p">],</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_outliers</span><span class="p">,</span> <span class="n">coly</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">markerSize</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+                               <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;outliers&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Isolation-Forest">Isolation Forest<a class="anchor-link" href="#Isolation-Forest">&#182;</a></h3><p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html">scikit-learn module</a><br>
+<a href="http://scikit-learn.org/stable/auto_examples/ensemble/plot_isolation_forest.html#sphx-glr-auto-examples-ensemble-plot-isolation-forest-py">scikit-learn example</a></p>
+<p>Mean criticism:  <code>contamination</code> dictates the fraction of outliers assumed</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">clf_isolation</span> <span class="o">=</span> <span class="n">IsolationForest</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">contamination</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> 
+                                <span class="n">max_samples</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#, max_features=100) </span>
+<span class="n">clf_isolation</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">sr_inOutliers</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">clf_isolation</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="p">)</span>
+
+<span class="n">sr_decisionResult</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">clf_isolation</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="p">)</span>
+<span class="k">print</span> <span class="n">sr_inOutliers</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">sr_decisionResult</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -13425,19 +13665,6 @@ Like=1  Like Somewhat=2 Neutral=3   Dislike Somewhat=4   Dislike=5</p>
 <h3 id="BayesSearchCV"><a href="skopt.BayesSearchCV">BayesSearchCV</a><a class="anchor-link" href="#BayesSearchCV">&#182;</a></h3>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span> 
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -13728,7 +13955,17 @@ Like=1  Like Somewhat=2 Neutral=3   Dislike Somewhat=4   Dislike=5</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="scipy"><code>scipy</code><a class="anchor-link" href="#scipy">&#182;</a></h1><h2 id="stats"><code>stats</code><a class="anchor-link" href="#stats">&#182;</a></h2>
+<h1 id="Statistics">Statistics<a class="anchor-link" href="#Statistics">&#182;</a></h1><p>Some personal notes on statistics are <a href="http://bit.ly/2BA02Fr">here</a>.</p>
+<h2 id="scipy.stats"><code>scipy.stats</code><a class="anchor-link" href="#scipy.stats">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Pearson-correlation">Pearson correlation<a class="anchor-link" href="#Pearson-correlation">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -13737,8 +13974,66 @@ Like=1  Like Somewhat=2 Neutral=3   Dislike Somewhat=4   Dislike=5</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">pearsonr</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># pearson r</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">pearsonr</span>
+
 <span class="n">r</span><span class="p">,</span> <span class="n">pval</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="ANOVA">ANOVA<a class="anchor-link" href="#ANOVA">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># One way (one variable)</span>
+
+<span class="c1"># === in one line ===</span>
+<span class="c1"># assuming each sample is a list of values</span>
+<span class="n">F</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">f_oneway</span><span class="p">(</span><span class="n">sample1</span><span class="p">,</span> <span class="n">sample2</span><span class="p">,</span> <span class="n">sample3</span><span class="p">)</span> <span class="c1"># each sample is a list of values</span>
+<span class="k">print</span> <span class="n">F</span><span class="p">,</span> <span class="n">p</span>
+
+<span class="c1"># === using pandas, step by step ===</span>
+<span class="c1"># df_data assumes two columns: &#39;treatement&#39; (categorical), &#39;val&#39; numerical values</span>
+<span class="n">total_mean</span> <span class="o">=</span> <span class="n">df_data</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">treatment_size</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;treatment&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="n">treatment_means</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;treatment&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span>
+
+<span class="c1"># between group sum of squared differences</span>
+<span class="n">S_b</span> <span class="o">=</span> <span class="n">treatment_size</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">treatment_means</span> <span class="o">-</span> <span class="n">total_mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1"># The between-group degrees of freedom is one less than the number of groups</span>
+<span class="n">f_b</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">treatment_size</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="c1"># between-group mean square value</span>
+<span class="n">MS_b</span> <span class="o">=</span> <span class="n">S_b</span> <span class="o">*</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">f_b</span>
+
+<span class="c1"># within group sum of squares</span>
+<span class="n">S_w</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">treatment</span><span class="p">,</span> <span class="n">df_treatement</span> <span class="ow">in</span> <span class="n">df_temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;treatment&#39;</span><span class="p">):</span>
+    <span class="n">S_w</span> <span class="o">+=</span> <span class="p">((</span><span class="n">df_treatement</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_treatement</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="c1"># The within-group degrees of freedom is    </span>
+<span class="n">f_w</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_temp</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">treatment_size</span><span class="p">)</span>
+<span class="c1">#Within-group mean square value is</span>
+<span class="n">MS_w</span> <span class="o">=</span> <span class="n">S_w</span> <span class="o">*</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">f_w</span>
+
+<span class="n">F</span> <span class="o">=</span> <span class="n">MS_b</span> <span class="o">*</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">MS_w</span>
+
+<span class="c1"># To reject the null hypothesis we check if the obtained F-value is above the critical value </span>
+<span class="c1"># for rejecting the null hypothesis. We could look it up in a F-value table based on </span>
+<span class="c1"># the DFwithin and DFbetween. However, there is a method in SciPy for obtaining a p-value.</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">f_b</span><span class="p">,</span> <span class="n">f_w</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -13749,8 +14044,4 @@ Like=1  Like Somewhat=2 Neutral=3   Dislike Somewhat=4   Dislike=5</p>
     </div>
   </div>
 </body>
-
- 
-
-
 </html>
