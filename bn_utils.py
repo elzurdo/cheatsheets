@@ -3,9 +3,10 @@ import  matplotlib.pyplot as plt
 from matplotlib import rc
 import numpy as np
 
-plt.rcParams.update({'font.size': 22})
-rc('xtick', labelsize=20)
-rc('ytick', labelsize=20)
+fontsize=18
+plt.rcParams.update({'font.size': fontsize})
+rc('xtick', labelsize=fontsize)
+rc('ytick', labelsize=fontsize)
 
 w1_true = 3.
 w2_true = 2.
@@ -48,7 +49,7 @@ def update_batch(x, y, w_guess, lr=1.e-1, zero_grad=True):
     return loss, w_guess
 
 
-def plot_summary(x, y, y_guess, losses, weights_1, weights_2, epsilon=1.e-7, shift_data=0, no_weights=False):
+def plot_summary(x, y, y_guess, losses, weights_1, weights_2, epsilon=1.e-7, shift_data=0, no_weights=False, title=None):
     nplots =3
 
     if no_weights:
@@ -63,6 +64,8 @@ def plot_summary(x, y, y_guess, losses, weights_1, weights_2, epsilon=1.e-7, shi
     plt.scatter(x[:,0],y_guess)
     plt.plot([min_x, max_x], [min_y, max_y], '--', color='green', alpha=0.7, linewidth=2)
     plt.xlabel('x'); plt.ylabel('y')
+    if title:
+        plt.title(title)
     
     plt.subplot(1, nplots, 2)
     plt.plot(np.log10( np.array(losses) + epsilon))
@@ -100,7 +103,7 @@ def run_batch(shift_data=0, size=400, lr=1.e-1, iterations=200, zero_grad=True, 
             print(f'MSE {losses[-1]}')
 
     if plot:
-        plot_summary(x, y, x@w_guess.detach().numpy(), losses, weights_1, weights_2, shift_data=shift_data)
+        plot_summary(x, y, x@w_guess.detach().numpy(), losses, weights_1, weights_2, shift_data=shift_data, title='one batch')
 
     return np.array(losses)
 
@@ -134,7 +137,7 @@ def run_batches(shift_data=0, n_batches=20, batch_size=20, lr=1.e-1,
             print(f'MSE {losses[-1]}')
 
     if plot:
-        plot_summary(x, y, x@w_guess.detach().numpy(), losses, weights_1, weights_2, shift_data=shift_data)
+        plot_summary(x, y, x@w_guess.detach().numpy(), losses, weights_1, weights_2, shift_data=shift_data, title='mini batches')
 
     return np.array(losses)
 
@@ -170,7 +173,7 @@ def update_batch_norm(x_b, y_b, w_guess, mu, var, gamma, beta, momentum=0.9, lr=
     return loss, w_guess, mu, var
 
 def run_batch_norm(shift_data=0, momentum=0.9, n_batches=10, batch_size=20, lr=1.e-1, 
-               iterations=100, zero_grad=True, verbose=False, epsilon=1.e-7, plot=True):
+               iterations=100, zero_grad=True, verbose=False, epsilon=1.e-7, plot=True, title='batch norm - momentum '):
     
     m = n_batches * batch_size
     x, y, w_true = generate_data(size=m, 
@@ -195,11 +198,13 @@ def run_batch_norm(shift_data=0, momentum=0.9, n_batches=10, batch_size=20, lr=1
 
         if not momentum:
             mu, var = None, None
-
+            if (t == 0):
+                title += '0'
         else:
             if (t == 0):
                 mu  = x_b.mean(axis=0)[0]
                 var = x_b.var(axis=0)[0]
+                title += f'{momentum}'
             
         #loss, w_guess = update_batch(x_b, y_b, w_guess, lr=lr, zero_grad=zero_grad)
         loss, w_guess, mu, var = update_batch_norm(x_b, y_b, w_guess, mu, var, gamma, beta, momentum=momentum, lr=lr, zero_grad=zero_grad, epsilon=epsilon)
@@ -209,13 +214,12 @@ def run_batch_norm(shift_data=0, momentum=0.9, n_batches=10, batch_size=20, lr=1
             print(f'MSE {losses[-1]}')
 
 
-    #plot_summary(x, y, w_guess, losses, weights_1, weights_2)
     x_ = x.clone()
     x_[:,0].sub_(mu).div_((var + epsilon)**0.5)
     z_ = x_ * gamma + beta
 
     if plot:
-        plot_summary(x, y, (z_@w_guess).detach().numpy(), losses, weights_1, weights_2, shift_data=shift_data, no_weights=True)
+        plot_summary(x, y, (z_@w_guess).detach().numpy(), losses, weights_1, weights_2, shift_data=shift_data, no_weights=True, title=title)
 
     return np.array(losses)
 
