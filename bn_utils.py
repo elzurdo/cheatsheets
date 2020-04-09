@@ -1,6 +1,11 @@
 from fastai.basics import torch, tensor, nn
 import  matplotlib.pyplot as plt
+from matplotlib import rc
 import numpy as np
+
+plt.rcParams.update({'font.size': 22})
+rc('xtick', labelsize=20)
+rc('ytick', labelsize=20)
 
 w1_true = 3.
 w2_true = 2.
@@ -28,7 +33,7 @@ def generate_data(size=200, shift_data=0, plot=True, seed=1):
     return x, y, w
 
 
-def update_simple(x, y, w_guess, lr=1.e-1, zero_grad=True):
+def update_batch(x, y, w_guess, lr=1.e-1, zero_grad=True):
     #print(w_guess.detach().numpy())
     y_pred = x@w_guess
     loss = mse(y, y_pred)
@@ -47,9 +52,9 @@ def plot_summary(x, y, y_guess, losses, weights_1, weights_2, epsilon=1.e-7, shi
     nplots =3
 
     if no_weights:
-        nplot = 2
+        nplots = 2
 
-    min_x, max_x = float(x.min()), float(x.max())
+    min_x, max_x = float(x[:,0].min()), float(x[:,0].max())
     min_y, max_y = min_x * w1_true + w2_true, max_x * w1_true + w2_true
 
     plt.figure(figsize=(16,5))
@@ -65,13 +70,13 @@ def plot_summary(x, y, y_guess, losses, weights_1, weights_2, epsilon=1.e-7, shi
     
     if not no_weights:
         plt.subplot(1, 3, 3)
-        iterations = len(weights_1)
+        iterations_ = len(weights_1)
         slope = w1_true
-        bias = w2_true #- shift_data
+        bias = w2_true 
         plt.plot(weights_1, color='green', label='a')
         plt.plot(weights_2, color='purple', label='b')
-        plt.plot([0, iterations], [slope, slope], '--', alpha=0.7, color='green')
-        plt.plot([0, iterations], [bias, bias], '--', alpha=0.7, color='purple')
+        plt.plot([0, iterations_], [slope, slope], '--', alpha=0.7, color='green')
+        plt.plot([0, iterations_], [bias, bias], '--', alpha=0.7, color='purple')
         plt.xlabel('iteration')
         plt.legend()
         plt.ylim(0., np.max([slope, bias]) * 1.05)
@@ -79,29 +84,28 @@ def plot_summary(x, y, y_guess, losses, weights_1, weights_2, epsilon=1.e-7, shi
     plt.tight_layout()
 
 
-def run_simple(shift_data=0, n_batches=20, batch_size=20, lr=1.e-1, 
-               iterations=200, zero_grad=True, verbose=True):
-    
-    m = n_batches * batch_size
-    x, y, w_true = generate_data(size=m, shift_data=shift_data, plot=False)
+def run_batch(shift_data=0, size=400, lr=1.e-1, iterations=200, zero_grad=True, verbose=False, plot=True):
+
+    x, y, w_true = generate_data(size=size, shift_data=shift_data, plot=False)
 
     w_guess = nn.Parameter(tensor(-1., 1))
 
     losses, weights_1, weights_2 = [], [], []
     for t in range(iterations): 
-        loss, w_guess = update_simple(x, y, w_guess, lr=lr, zero_grad=zero_grad)
+        loss, w_guess = update_batch(x, y, w_guess, lr=lr, zero_grad=zero_grad)
         losses.append(float(loss.detach().numpy())); weights_1.append(w_guess.detach().numpy()[0]); weights_2.append(w_guess.detach().numpy()[1])
         
         if (t % (iterations // 10) == 0) & verbose: 
-            print(loss)
+            print(f'MSE {losses[-1]}')
 
-    plot_summary(x, y, x@w_guess.detach().numpy(), losses, weights_1, weights_2, shift_data=shift_data)
+    if plot:
+        plot_summary(x, y, x@w_guess.detach().numpy(), losses, weights_1, weights_2, shift_data=shift_data)
 
     return np.array(losses)
 
 
 def run_batches(shift_data=0, n_batches=20, batch_size=20, lr=1.e-1, 
-               iterations=200, zero_grad=True, verbose=True):
+               iterations=200, zero_grad=True, verbose=False, plot=True):
     
     m = n_batches * batch_size
     x, y, w_true = generate_data(size=m, 
@@ -122,18 +126,19 @@ def run_batches(shift_data=0, n_batches=20, batch_size=20, lr=1.e-1,
         x_b = x[start:end].clone() #  clone makes sure we do not override
         y_b = y[start:end] # no need to clone this
 
-        loss, w_guess = update_simple(x_b, y_b, w_guess, lr=lr, zero_grad=zero_grad)
+        loss, w_guess = update_batch(x_b, y_b, w_guess, lr=lr, zero_grad=zero_grad)
         losses.append(float(loss.detach().numpy())); weights_1.append(w_guess.detach().numpy()[0]); weights_2.append(w_guess.detach().numpy()[1])
         
         if (t % (iterations // 10) == 0) & verbose: 
-            print(loss)
+            print(f'MSE {losses[-1]}')
 
-    plot_summary(x, y, x@w_guess.detach().numpy(), losses, weights_1, weights_2, shift_data=shift_data)
+    if plot:
+        plot_summary(x, y, x@w_guess.detach().numpy(), losses, weights_1, weights_2, shift_data=shift_data)
 
     return np.array(losses)
 
 
-def update_batch_norm(x_b, y_b, w_guess, mu, var, gamma, beta, momentum=0.9, lr=1.e-1, zero_grad=True, verbose=True, epsilon=1.e-5):    
+def update_batch_norm(x_b, y_b, w_guess, mu, var, gamma, beta, momentum=0.9, lr=1.e-1, zero_grad=True, verbose=False, epsilon=1.e-5):    
     mu_b    = x_b.mean(axis=0)[0]
     var_b   = x_b.var(axis=0)[0]
     
@@ -163,8 +168,8 @@ def update_batch_norm(x_b, y_b, w_guess, mu, var, gamma, beta, momentum=0.9, lr=
             
     return loss, w_guess, mu, var
 
-def run_batch_norm(shift_data=0, momentum = 0.9, n_batches=10, batch_size=20, lr=1.e-1, 
-               iterations=100, zero_grad=True, verbose=True, epsilon=1.e-7):
+def run_batch_norm(shift_data=0, momentum=0.9, n_batches=10, batch_size=20, lr=1.e-1, 
+               iterations=100, zero_grad=True, verbose=False, epsilon=1.e-7, plot=True):
     
     m = n_batches * batch_size
     x, y, w_true = generate_data(size=m, 
@@ -177,7 +182,7 @@ def run_batch_norm(shift_data=0, momentum = 0.9, n_batches=10, batch_size=20, lr
     losses, weights_1, weights_2 = [], [], []
 
     batch_idx = -1
-    for t in range(batch_size * n_batches // 2): 
+    for t in range(iterations): #(batch_size * n_batches // 2):
         # -- batch limits --
         batch_idx += 1
         batch_idx = batch_idx % n_batches
@@ -187,7 +192,7 @@ def run_batch_norm(shift_data=0, momentum = 0.9, n_batches=10, batch_size=20, lr
         x_b = x[start:end].clone() #  clone makes sure we do not override
         y_b = y[start:end] # no need to clone this
 
-        if momentum is None:
+        if not momentum:
             mu, var = None, None
 
         else:
@@ -195,12 +200,12 @@ def run_batch_norm(shift_data=0, momentum = 0.9, n_batches=10, batch_size=20, lr
                 mu  = x_b.mean(axis=0)[0]
                 var = x_b.var(axis=0)[0]
             
-        #loss, w_guess = update_simple(x_b, y_b, w_guess, lr=lr, zero_grad=zero_grad)
+        #loss, w_guess = update_batch(x_b, y_b, w_guess, lr=lr, zero_grad=zero_grad)
         loss, w_guess, mu, var = update_batch_norm(x_b, y_b, w_guess, mu, var, gamma, beta, momentum=momentum, lr=lr, zero_grad=zero_grad, epsilon=epsilon)
         losses.append(float(loss.detach().numpy())); weights_1.append(w_guess.detach().numpy()[0]); weights_2.append(w_guess.detach().numpy()[1])
 
         if (t % 10 == 0) & verbose: 
-            print(loss)
+            print(f'MSE {losses[-1]}')
 
 
     #plot_summary(x, y, w_guess, losses, weights_1, weights_2)
@@ -208,8 +213,83 @@ def run_batch_norm(shift_data=0, momentum = 0.9, n_batches=10, batch_size=20, lr
     x_[:,0].sub_(mu).div_((var + epsilon)**0.5)
     z_ = x_ * gamma + beta
 
-    plot_summary(x, y, (z_@w_guess).detach().numpy(), losses, weights_1, weights_2, shift_data=shift_data, no_weights=True)
+    if plot:
+        plot_summary(x, y, (z_@w_guess).detach().numpy(), losses, weights_1, weights_2, shift_data=shift_data, no_weights=True)
 
     return np.array(losses)
+
+import ipywidgets as widgets
+from ipywidgets import interact #, interactive, fixed, interact_manual
+from scipy.signal import savgol_filter
+
+def _integers_to_widget(ints, continuous_update=False):
+    return widgets.IntSlider(min=ints[0], max=ints[1], step=ints[2], continuous_update=continuous_update)
+
+shift_data = [0, 1, 2, 3, 5, 10, 50]
+lrs = [1.e-1, 1.e-2, 1.e-3, 1.e-4, 1.e-5]  # learning rates
+batch_sizes = [20, 40, 80]
+momentums = [0., 0.1, 0.5, 0.9, 0.99, 0.999]
+epsilons = [1.e-5, 1.e-6, 1.e-7]
+
+sizes = (50, 400, 50)
+n_batches = (20, 100, 10)
+iterations = (50, 1000, 10)
+continuous_update = False
+sizes = _integers_to_widget(sizes, continuous_update=continuous_update)
+n_batches = _integers_to_widget(n_batches, continuous_update=continuous_update)
+iterations = _integers_to_widget(iterations, continuous_update=continuous_update)
+
+def run_one_batch_interactive():
+    return interact(run_batch, size=sizes, lr=lrs, iterations=iterations)
+
+def run_batches_interactive():
+    return interact(run_batches, shift_data=shift_data, lr=lrs, iterations=iterations, batch_size=batch_sizes, n_batches=n_batches)
+
+def run_batch_norm_interactive():
+    return interact(run_batch_norm, shift_data=shift_data, momentum=momentums, n_batches=n_batches, batch_size=batch_sizes, lr=lrs, 
+               iterations=iterations, epsilon=epsilons)
+
+def run_comparison():
+    interact(_run_comparison, shift_data=shift_data, n_batches=n_batches, batch_size=batch_sizes, lr=lrs, iterations=iterations, momentum=momentums, epsilon=epsilons, verbose=False)
+
+def _run_comparison(shift_data=0, n_batches=20, momentum=0.9, batch_size=20, lr=1.e-1, iterations=200, epsilon=1.e-7, verbose=False):
+    losses = {}
+
+    size = n_batches * batch_size
+
+    losses['one batch'] = run_batch(size=size, shift_data=shift_data, lr=lr, iterations=iterations, plot=verbose)
+    losses['mini batches'] = run_batches(shift_data=shift_data, lr=lr, iterations=iterations, batch_size=batch_size, n_batches=n_batches, plot=verbose)
+    losses['batch norm (momentum 0)'] = run_batch_norm(shift_data=shift_data, momentum=0, n_batches=n_batches, batch_size=batch_size, lr=lr,
+               iterations=iterations, epsilon=epsilon, plot=verbose)
+    losses[f'batch norm (momentum {momentum})'] = run_batch_norm(shift_data=shift_data, momentum=momentum, n_batches=n_batches, batch_size=batch_size, lr=lr,
+               iterations=iterations, epsilon=epsilon, plot=verbose)
+
+    plt.figure(figsize=(16, 8))
+
+    epsilon = 1.e-5
+    for idx, item in enumerate(losses):
+        width = idx + 1
+        l_ = losses[item]
+        l_log10 = np.log10(losses[item] + epsilon)
+        plt.subplot(1, 2, 1)
+        plt.plot(l_log10, linewidth=width)
+
+        plt.subplot(1, 2, 2)
+        #if 'batch' in item:
+        l_ = savgol_filter(l_, 21, 2)
+        l_log10 = np.log10(l_ + epsilon)
+        plt.plot(l_log10, label=item, linewidth=width)
+
+    plt.title('Smoothed')
+    plt.ylabel('log10(MSE)')
+    plt.xlabel('iteration')
+    plt.legend(fontsize=20)
+
+    plt.subplot(1, 2, 1)
+    plt.title('Actual')
+    plt.ylabel('log10(MSE)')
+    plt.xlabel('iteration')
+
+    plt.tight_layout()
 
 
