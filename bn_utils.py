@@ -57,11 +57,12 @@ def plot_summary(x, y, y_guess, losses, weights_1, weights_2, epsilon=1.e-7, shi
     min_x, max_x = float(x[:,0].min()), float(x[:,0].max())
     min_y, max_y = min_x * w1_true + w2_true, max_x * w1_true + w2_true
 
-    plt.figure(figsize=(16,5))
+    plt.figure(figsize=(16/3. * nplots,5))
     plt.subplot(1, nplots, 1)
     plt.scatter(x[:,0],y, color='orange')
     plt.scatter(x[:,0],y_guess)
     plt.plot([min_x, max_x], [min_y, max_y], '--', color='green', alpha=0.7, linewidth=2)
+    plt.xlabel('x'); plt.ylabel('y')
     
     plt.subplot(1, nplots, 2)
     plt.plot(np.log10( np.array(losses) + epsilon))
@@ -240,7 +241,7 @@ n_batches = _integers_to_widget(n_batches, continuous_update=continuous_update)
 iterations = _integers_to_widget(iterations, continuous_update=continuous_update)
 
 def run_one_batch_interactive():
-    return interact(run_batch, size=sizes, lr=lrs, iterations=iterations)
+    return interact(run_batch, size=sizes, shift_data=shift_data, lr=lrs, iterations=iterations)
 
 def run_batches_interactive():
     return interact(run_batches, shift_data=shift_data, lr=lrs, iterations=iterations, batch_size=batch_sizes, n_batches=n_batches)
@@ -259,9 +260,9 @@ def _run_comparison(shift_data=0, n_batches=20, momentum=0.9, batch_size=20, lr=
 
     losses['one batch'] = run_batch(size=size, shift_data=shift_data, lr=lr, iterations=iterations, plot=verbose)
     losses['mini batches'] = run_batches(shift_data=shift_data, lr=lr, iterations=iterations, batch_size=batch_size, n_batches=n_batches, plot=verbose)
-    losses['batch norm (momentum 0)'] = run_batch_norm(shift_data=shift_data, momentum=0, n_batches=n_batches, batch_size=batch_size, lr=lr,
+    losses['batch norm - momentum 0'] = run_batch_norm(shift_data=shift_data, momentum=0, n_batches=n_batches, batch_size=batch_size, lr=lr,
                iterations=iterations, epsilon=epsilon, plot=verbose)
-    losses[f'batch norm (momentum {momentum})'] = run_batch_norm(shift_data=shift_data, momentum=momentum, n_batches=n_batches, batch_size=batch_size, lr=lr,
+    losses[f'batch norm - momentum {momentum})'] = run_batch_norm(shift_data=shift_data, momentum=momentum, n_batches=n_batches, batch_size=batch_size, lr=lr,
                iterations=iterations, epsilon=epsilon, plot=verbose)
 
     plt.figure(figsize=(16, 8))
@@ -275,7 +276,6 @@ def _run_comparison(shift_data=0, n_batches=20, momentum=0.9, batch_size=20, lr=
         plt.plot(l_log10, linewidth=width)
 
         plt.subplot(1, 2, 2)
-        #if 'batch' in item:
         l_ = savgol_filter(l_, 21, 2)
         l_log10 = np.log10(l_ + epsilon)
         plt.plot(l_log10, label=item, linewidth=width)
