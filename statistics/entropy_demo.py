@@ -39,6 +39,14 @@ plt.rcParams['axes.spines.right'] = False
 plt.rcParams['axes.spines.top'] = False
 # -
 
+from entropy_utils import (
+    joint_p_mutual_information, 
+    random_vars_to_joint_prob, 
+    random_vars_to_mutual_information,
+    random_vars_to_covariance
+)
+from data_generator import joint_prob_to_random_variables, generate_joint_probability
+
 # # Entropy
 # TBD
 
@@ -72,51 +80,9 @@ plt.rcParams['axes.spines.top'] = False
 # * [`stackoverflow.com/questions/20491028`](https://stackoverflow.com/questions/20491028/optimal-way-to-compute-pairwise-mutual-information-using-numpy)
 # * [`sklearn.feature_selection.mutual_info_regression`](https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.mutual_info_regression.html)
 
-# +
-# Mutual information is about comparing the joint distribution of 𝑋 and 𝑌 
+# Mutual information is about comparing the joint distribution of 𝑋 and 𝑌
 # with what the joint distribution would be if 𝑋 and 𝑌 were actually independent.
 
-from scipy.special import kl_div
-
-# To Do: fix edge cases where if p has any null values it returns nan
-# Possible solution: replace all 0 values with epsilon=1.e-7
-def information_divergence(p, q, base=2):    
-    return kl_div(p, q).sum() / np.log(base)
-    #return np.sum(p * np.log2(p / q)) # not using becuase of mishandling of zeros (but otherwise this is the basic idea)
-
-def mutual_information(joint_prob_XY, verbose=True):
-    # marginal distributions
-    prob_X = joint_prob_XY.sum(axis=1)
-    prob_Y = joint_prob_XY.sum(axis=0)
- 
-    # joint distribution if X and Y were actually independent
-    joint_prob_XY_indep = np.outer(prob_X, prob_Y)
-    
-    if len(joint_prob_XY.shape) != 2:
-        verbose = False
-    
-    if verbose:        
-        print('joint probability p(X,Y)')
-        df_joint_prob_XY = pd.DataFrame(joint_prob_XY)
-        df_joint_prob_XY.columns.name = 'Y'
-        df_joint_prob_XY.index.name = 'X'
-        display(df_joint_prob_XY)
-        
-        print('marginals')
-        display(pd.DataFrame(prob_X, columns=['p_X']))
-        display(pd.DataFrame(prob_Y, columns=['p_Y']).T)
-        
-        print(r'the marginals are used to build the joint probability if independent: p(X,Y) if X⊥Y')
-        df_joint_prob_XY_indep = pd.DataFrame(joint_prob_XY_indep)
-        df_joint_prob_XY_indep.columns.name = 'Y'
-        df_joint_prob_XY_indep.index.name = 'X'
-        display(df_joint_prob_XY_indep)
-        
-    return information_divergence(joint_prob_XY, joint_prob_XY_indep)
-
-
-
-# -
 
 # ### Joint Distributions
 
@@ -124,7 +90,7 @@ def mutual_information(joint_prob_XY, verbose=True):
 #epsilon = 1.e-7
 
 n_vars = 2  # e.g, number of rolls of dice (currently works only for 2D ...)
-n_dims = 6  # e.g, the number of options on each die
+n_dims = 3  # e.g, the number of options on each die
 verbose = True
 
 #distribution_type = 'zero MI'
@@ -145,9 +111,8 @@ elif 'zero entropy' == distribution_type:
     joint_prob_XY[0,0] = 1
     expected_MI = 0
     explanation = "if one of the variables doesn't have entropy, neither will the MI"
-    
 
-mi_outcome = mutual_information(joint_prob_XY, verbose=verbose)
+mi_outcome = joint_p_mutual_information(joint_prob_XY, verbose=verbose)
 
 is_close = None
 if expected_MI is not None:
@@ -160,41 +125,10 @@ elif False == is_close:
     print(f"instead of the expected {is_close}")
 # -
 
+joint_prob_to_random_variables(joint_prob_XY, 5)
+
+
 # ### Random Variables
-
-# +
-from itertools import product
-
-# TODO: need to verify that joint_prob is normalised
-# TODO: generalise from n_vars=2
-# TODO: consider using A = np.identity(3); np.dstack([A]*3); but not sure ... examine: https://stackoverflow.com/questions/46029017
-def generate_random_variables(joint_prob, sample_size, n_vars=2, seed=None):
-    n_dims = joint_prob.shape[0]
-    
-    choices = list(product(np.arange(n_dims), repeat=n_vars))
-    
-    def choice_to_values(idx):
-        return choices[idx]
-    
-    choices_bool = np.arange(n_dims ** 2)
-    
-    if seed is not None:
-        np.random.seed(seed)
-    choice_indexes = np.random.choice(choices_bool, sample_size, p=joint_prob.flatten())
-    
-    return np.array(list(zip(*(list(map(choice_to_values, choice_indexes))))))
-
-
-def random_vars_to_joint_prob(rand_vars, n_dims):
-    #n_vars = rand_vars.shape[0]
-    joint_p = np.zeros([n_dims,n_dims])
-    for idx in range(rand_vars.shape[-1]):
-        joint_p[rand_vars[0][idx], rand_vars[1][idx]] += 1
-        
-    joint_p /= joint_p.sum()
-    
-    return joint_p
-
 
 # +
 # each line should have credible region
@@ -204,24 +138,13 @@ def stochastic_mi_estimate_accuracy(n_dims=6, n_vars=2, sample_size=100, seed=No
     # n_dims = int        # e.g, the number of options on each die
     # n_vars = int        # e.g, number of rolls of dice (currently works only for 2D ...)
     
-    mi_type = 'max MI' #'zero entropy' #'max MI'
-    
-    assert n_vars == 2   
-    
+    joint_prob_true = 
 
-    if 'max MI' == mi_type:
-        joint_prob_true = np.eye(n_dims) / n_dims 
-    elif 'zero MI' == mi_type:
-        joint_prob_true= np.ones([n_dims, n_dims]) / (n_dims*n_dims)
-    elif 'zero entropy':
-        joint_prob_true = np.zeros([n_dims, n_dims])
-        joint_prob_true[0,0] = 1
-
-    rand_vars = generate_random_variables(joint_prob_true, sample_size, n_vars=2, seed=seed)
+    rand_vars = joint_prob_to_random_variables(joint_prob_true, sample_size, seed=seed)
     joint_prob_obsr = random_vars_to_joint_prob(rand_vars, n_dims=n_dims)
 
-    mi_true = mutual_information(joint_prob_true, verbose=False)
-    mi_obsr = mutual_information(joint_prob_obsr, verbose=False)
+    mi_true = joint_p_mutual_information(joint_prob_true, verbose=False)
+    mi_obsr = joint_p_mutual_information(joint_prob_obsr, verbose=False)
 
     if verbose:
         print(f"Sample size {sample_size:,}")
@@ -231,7 +154,7 @@ def stochastic_mi_estimate_accuracy(n_dims=6, n_vars=2, sample_size=100, seed=No
         
     return {'mi true': mi_true, 'mi observed': mi_obsr, 'mi difference': mi_obsr - mi_true, 'mi accuracy': (mi_obsr - mi_true) / mi_true}
     
-stochastic_mi_estimate_accuracy(seed=1)
+stochastic_mi_estimate_accuracy(sample_size=100, seed=1)
 
 # +
 # Graph Idea:
@@ -331,6 +254,70 @@ axes[1].set_xlabel("sample size")
 axes[1].set_ylabel("mi accuracy (%)")
 axes[1].legend(title=f"n dim: % at n={sample_sizes[0]}")
 axes[1].set_xscale("log")
+
+
 # -
 
 # ### Comparisons with Covariance
+#
+# Both the Coveriance and Mutual Infromations are measures that quanitfy “the distance of the two random variables from independence”.
+#
+# Where:
+# * **Covariance** measures the weighted sum of the **product** with the random variables
+# * **Mutual Information** measures weighted sum of the **joint probabilities**
+#
+# **Defintions**
+#
+# Covariance:  
+#
+# $COV(X,Y) \equiv E[(X-E[X])(Y-E[Y])]  = \\ E[X\cdot Y] - E[X]E[Y] = \sum_{x,y}p(x,y)\cdot x \cdot y -  (\sum_x p(x)\cdot x)(\sum_y p(x)\cdot y) = \\
+# COV(X,Y) = \sum_{x,y} (p(x,y) - p(x)p(y))\cdot x \cdot y$
+#
+# Mutual Information:
+#
+# $I(X,Y) = E[ln\frac{p(x,y)}{p(x)p(y)}] = \\
+# I(X,Y) = \sum_{x,y} (ln \ p(x,y)  - ln \ p(x)p(y))\cdot p(x,y)$
+#
+#
+# **Conclusion**
+#
+# These two should be considered **complementary**, describing different aspects of the association between the two variables.
+#
+# * Pros for **Mutual Information**: not concerned if relationship is linear (where Coveriance does)
+# * Pros for **Covariance**: 
+#     * may be calculated directly from a data sample without the need to actually know the distributions involved (where MI requires knowledge of the distributions) 
+#     * useful for direction, especially for linear (correlation vs. anticorrelation)
+#
+#
+#
+# **Useful Resources**
+# * [`https://stats.stackexchange.com/questions/81659`](https://stats.stackexchange.com/questions/81659)
+
+def joint_prob_to_covariance(joint_prob):
+    n_dims = joint_prob.shape[0]
+
+    p_x = joint_prob.sum(axis=0)
+    p_y = joint_prob.sum(axis=1)
+
+    cov_ = 0
+    for x in range(n_dims):
+        for y in range(n_dims):
+            cov_ += x * y * (joint_prob[x,y] - p_x[x]*p_y[y])
+            
+        
+    return cov_
+
+# +
+n_dims = 2
+sample_size = 100
+flip = False  # by flipping correlation becomes anticorrelation and vice versa, but not change to MI
+
+joint_prob_true = generate_joint_probability(n_dims, mi_type='max MI', flip=flip)
+# print(joint_prob_true)
+rand_vars = joint_prob_to_random_variables(joint_prob_true, sample_size, seed=None)
+
+mi = random_vars_to_mutual_information(rand_vars, n_dims, verbose=False)
+
+cov_ = random_vars_to_covariance(rand_vars, verbose=False)
+print(f"{mi:0.3f} - MI(X,Y) (should be {joint_p_mutual_information(joint_prob_true, verbose=False):0.3f})")
+print(f"{cov_:0.3f} - COV(X,Y) (should be {joint_prob_to_covariance(joint_prob_true):0.3f})")
