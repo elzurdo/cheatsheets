@@ -62,7 +62,7 @@ from data_generator import joint_prob_to_random_variables, generate_joint_probab
 # The mutual information could be thought of as how far  $𝑋$  and  $𝑌$  are from being independent.  
 #
 # * $I(X;Y)=0$: when $X$ and $Y$ are independent.  
-# * $I(X;Y)=H(X)$: when $X$ and $Y$ are equal. $H(X)$ is the marginal entropy.$ 
+# * $I(X;Y)=H(X)$: when $X$ and $Y$ are equal. $H(X)$ is the marginal entropy. 
 #
 # This second point means that $I(X;Y)$ may be larger than 1 ($I(X;Y)=1$ just means that they share one bit of information).  
 # In general:  
@@ -138,7 +138,7 @@ def stochastic_mi_estimate_accuracy(n_dims=6, n_vars=2, sample_size=100, seed=No
     # n_dims = int        # e.g, the number of options on each die
     # n_vars = int        # e.g, number of rolls of dice (currently works only for 2D ...)
     
-    joint_prob_true = 
+    joint_prob_true = np.ones([n_dims, n_dims]) / (n_dims*n_dims)
 
     rand_vars = joint_prob_to_random_variables(joint_prob_true, sample_size, seed=seed)
     joint_prob_obsr = random_vars_to_joint_prob(rand_vars, n_dims=n_dims)
@@ -321,3 +321,10 @@ mi = random_vars_to_mutual_information(rand_vars, n_dims, verbose=False)
 cov_ = random_vars_to_covariance(rand_vars, verbose=False)
 print(f"{mi:0.3f} - MI(X,Y) (should be {joint_p_mutual_information(joint_prob_true, verbose=False):0.3f})")
 print(f"{cov_:0.3f} - COV(X,Y) (should be {joint_prob_to_covariance(joint_prob_true):0.3f})")
+# -
+
+# ### Randomly Generated Data
+
+
+
+
